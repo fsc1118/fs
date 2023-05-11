@@ -2,12 +2,12 @@ class Location {
     /**
      * 
      * @param {string} address
-     * @param {number} block
+     * @param {number} blockIndex
      * @param {number} offset
      */
-    constructor(address, block, offset) {
+    constructor(address, blockIndex, offset) {
         this.address = address
-        this.block = block
+        this.blockIndex = blockIndex
         this.offset = offset
     }
 }

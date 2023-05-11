@@ -1,4 +1,4 @@
-const Location = require('../Location')
+const Location = require('../Chunk')
 const sqlite3 = require('sqlite')
 const databaseName = "../data/metadata.db"
 const deasync = require('deasync')

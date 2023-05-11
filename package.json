@@ -11,6 +11,7 @@
   "dependencies": {
     "deasync": "^0.1.28",
     "express": "^4.18.2",
+    "lru-cache": "^9.1.1",
     "readline-sync": "^1.4.10",
     "uuid": "^9.0.0"
   }
