@@ -1,0 +1,5 @@
+{
+    "MAX_WORKERS": 10,
+    "MAX_CACHE_SIZE": 1000,
+    "REPLICATION_FACTOR": 3
+}

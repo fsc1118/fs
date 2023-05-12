@@ -1,0 +1,9 @@
+{
+    "BLOCK_SIZE": 4096,
+    "TIMEOUT": 100000,
+    "MAX_RETRIES": 5,
+    "RETRY_DELAY": 1000,
+    "MAX_CONCURRENT": 5,
+    "LOG_DIR": "logs",
+    "IS_DEVELOPMENT": true
+}

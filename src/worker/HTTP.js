@@ -1,5 +1,5 @@
-const MasterTimeoutException = require('../exceptions/MasterTimeoutException')
-const MasterRejectConnectionException = require('../exceptions/MasterRejectConnectionException')
+const MasterTimeoutException = require('../error/master/MasterTimeoutException')
+const MasterRejectConnectionException = require('../error/master/MasterRejectConnectionException')
 const express = require('express')
 const ENDPOINT = {
     Register: '/register',

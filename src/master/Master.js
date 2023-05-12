@@ -11,8 +11,6 @@ const Location = require("./Location")
 const logger = require("./Logger")
 const { REPLICATION_FACTOR } = require('../constant')
 class Master {
-    MAX_WORKERS = 10
-    MAX_CACHE_SIZE = 1000
     constructor() {
         /**
          * 
@@ -43,7 +41,7 @@ class Master {
      */
     addWorker(workerAddress) {
         if (this.workers.length < this.MAX_WORKERS) {
-            this.workers.push([workerAddress, uuid.v4(), new Date().getTime()])
+            this.workers.push(new Worker(workerAddress))
         } else {
             throw new MasterFullPoolException(this.MAX_WORKERS)
         } this.id = Crypto.sha1(data)

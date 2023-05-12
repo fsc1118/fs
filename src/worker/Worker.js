@@ -1,20 +1,25 @@
-const fs = require("fs")
 const Device = require("./Device")
 const DeviceNotFoundException = require("../error/device/DeviceNotFoundException")
 const PermissionDeniedException = require("../error/device/DevicePermissionDeniedException")
 const MasterTimeoutException = require("../error/master/MasterTimeoutException")
+const logger = require("./Logger")
+const config = require("config")
+const HTTP = require("./HTTP")
+
 /**
  * @returns {string} - The path to the device
  * 
  * Read the path to the device from the environment variable DEVICE or from stdin
 */
 const readDevicePath = () => {
-    // Read environment variable
-    if (process.env.DEVICE) {
-        return process.env.DEVICE
+    if (config.DEVICE_PATH !== undefined) {
+        logger.info(`Using device path ${config.DEVICE_PATH} from config file`)
+        return config.DEVICE_PATH
     }
-    // Read from stdin
-    return require("readline-sync").question("Enter device path: ")
+    logger.info("Failed to read device path from config file, reading from stdin")
+    const readedPath = require("readline-sync").question("Enter device path: ")
+    logger.info(`Using device path ${readedPath} from stdin`)
+    return readedPath1
 }
 
 /**
@@ -47,19 +52,25 @@ const readMasterAddress = () => {
 
 class Worker {
     BLOCK_SIZE = 4096
-    constructor() {
+
+    initalizeDevice() {
         const devicePath = readDevicePath()
         try {
             this.device = new Device(devicePath)
         } catch (error) {
             if (error instanceof DeviceNotFoundException) {
+                console.error(`Device ${devicePath} does not exist`)
                 process.exit(1) // read
             }
             if (error instanceof PermissionDeniedException) {
+                console.error(`Permission denied for device ${devicePath}`)
                 process.exit(2)
             }
             throw error
         }
+    }
+    constructor() {
+        this.initalizeDevice()
         this.http = new HTTP(
             readWorkerAddress(),
             readMasterAddress()
@@ -124,4 +135,4 @@ class Worker {
     }
 }
 
-module.exports = Worker
+module.exports = new Worker()

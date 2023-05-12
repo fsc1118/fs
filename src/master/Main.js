@@ -1,5 +1,6 @@
 const express = require("express")
 const logger = require("./Logger")
+logger.info("Master logger initialized")
 
 const app = express()
 const port = 3000
@@ -9,7 +10,7 @@ app.listen(port, () => {
 })
 
 app.post("/write", (req, res) => {
-
+    new Logger("../../logs/master.log")
 })
 
 app.get("/read", (req, res) => {
