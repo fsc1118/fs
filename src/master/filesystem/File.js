@@ -1,9 +1,11 @@
-const Chunk = require('../Chunk')
-const BLOCK_SIZE = require('../../constant').BLOCK_SIZE
+const Chunk = require("../Chunk")
+const BLOCK_SIZE = require("config").get("BLOCK_SIZE")
+const MasterChunkSavingException = require("../../error/master/MasterChunkSavingException")
 /**
  * 
  * @param {string} payload 
  * @returns {Chunk[]}
+ * @throws {MasterChunkSavingException}
  */
 const divideIntoChunkAndSave = (payload) => {
     const chunk = []
@@ -19,6 +21,7 @@ class File {
      * 
      * @param {string} fileName 
      * @param {string} payload 
+     * @throws {MasterChunkSavingException}
      */
     constructor(
         fileName,
@@ -26,16 +29,18 @@ class File {
     ) {
         this.fileName = fileName
         // Divide payload into blocks and store Location of each block
-        this.chunks = divideIntoChunkAndSave(payload)
+        this.chunks = []
+        this.append(payload)
     }
 
     /**
      * 
      * @param {string} newPayload
      * @returns {void}
+     * @throws {MasterChunkSavingException}
      */
     append(newPayload) {
-
+        this.chunks = this.chunks.concat(divideIntoChunkAndSave(newPayload))
     }
 }
 
