@@ -23,20 +23,6 @@ const readDevicePath = () => {
 }
 
 /**
- * @returns {string} - The address of the worker
- * 
- * Read the worker"s address from the environment variable DEVICE or from stdin. The address can be a hostname or an IP address+port
-*/
-const readWorkerAddress = () => {
-    // Read environment variable
-    if (process.env.WORKER_ADDRESS) {
-        return process.env.WORKER_ADDRESS
-    }
-    // Read from stdin
-    return require("readline-sync").question("Enter worker address: ")
-}
-
-/**
  * @returns {string} - The address of the master
  * 
  * Read the master"s address from the environment variable DEVICE or from stdin. The address can be a hostname or an IP address+port
@@ -53,24 +39,22 @@ const readMasterAddress = () => {
 class Worker {
     BLOCK_SIZE = 4096
 
-    initalizeDevice() {
+    initalizeStorageDevice() {
         const devicePath = readDevicePath()
         try {
             this.device = new Device(devicePath)
         } catch (error) {
             if (error instanceof DeviceNotFoundException) {
-                console.error(`Device ${devicePath} does not exist`)
-                process.exit(1) // read
+                process.exit(1)
             }
             if (error instanceof PermissionDeniedException) {
-                console.error(`Permission denied for device ${devicePath}`)
                 process.exit(2)
             }
             throw error
         }
     }
     constructor() {
-        this.initalizeDevice()
+        this.initalizeStorageDevice()
         this.http = new HTTP(
             readWorkerAddress(),
             readMasterAddress()
@@ -109,7 +93,7 @@ class Worker {
      * 
      * @param {number} blockIndex - The index of the block to write to
      * @param {number} offset - The offset in the block to start writing to
-     * @param {Buffer} buffer - The bytes to write to the block
+     * @param {string} buffer - The bytes to write to the block
      * 
      * @returns {void}
      * 
