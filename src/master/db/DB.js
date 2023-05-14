@@ -1,5 +1,6 @@
-const db = require("better-sqlite3")("../data/foobar.db")
+const db = require("better-sqlite3")("../data/FS.db")
 const Chunk = require("./Chunk")
+const Location = require("./Location")
 const File = require("./File")
 const FileNotFoundException = require("../../error/filesystem/FileNotFoundException")
 const SQLITE_TYPE = {
@@ -79,6 +80,18 @@ module.exports = {
      */
     getFile: (fileName) => {
         // TODO
+    },
+
+
+    /**
+     * 
+     * @param {string} ChunkID
+     * @return {Array<Location>} 
+     * 
+     * Get the locations of all the blocks of a chunk from the persistent storage
+     **/
+    getAllChunkLocationsFromPersistentStorage(chunkID) {
+        // TODO: Database Operation
     }
 }
 
