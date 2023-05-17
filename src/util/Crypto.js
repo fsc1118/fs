@@ -1,6 +1,6 @@
 module.exports = {
     /**
-     * 
+     *
      * @param {string} data
      * @returns {string} sha1 hash
      */

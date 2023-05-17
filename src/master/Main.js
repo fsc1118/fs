@@ -8,15 +8,3 @@ const port = 3000
 app.listen(port, () => {
     logger.info(`Master listening on port ${port}`)
 })
-
-app.post("/write", (req, res) => {
-
-})
-
-app.get("/read", (req, res) => {
-
-})
-
-app.get("/register", (req, res) => {
-
-})

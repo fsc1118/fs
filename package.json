@@ -18,5 +18,9 @@
     "lru-cache": "^9.1.1",
     "readline-sync": "^1.4.10",
     "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.40.0",
+    "eslint-plugin-jsdoc": "^44.2.4"
   }
 }

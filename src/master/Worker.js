@@ -12,14 +12,14 @@ class Worker {
     }
 
     /**
-     * 
+     *
      * @param {Chunk} chunk                         - chunk to be saved
      * @throws {WorkerRejectConnectionException}    - If the worker rejects saving the chunk
      * @throws {WorkerTimeoutException}             - If the worker does not respond
      * @returns {Location}                          - The location of the chunk on the worker
      */
 
-    attemptToSaveChunk(chunk) {
+    attemptToSaveChunk() {
         // TODO
     }
 }

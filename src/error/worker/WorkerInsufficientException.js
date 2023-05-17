@@ -1,6 +1,6 @@
 class WorkerInsufficientException extends Error {
     constructor() {
-        super(`Insufficient workers.`)
+        super("Insufficient workers.")
         this.name = "WorkerInsufficientException"
     }
 }

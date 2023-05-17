@@ -5,7 +5,7 @@ const MasterTimeoutException = require("../error/master/MasterTimeoutException")
 const logger = require("./Logger")
 const config = require("config")
 const HTTP = require("./HTTP")
-
+const process = require("process")
 /**
  * @returns {string} - The path to the device
  * 
@@ -70,7 +70,7 @@ class Worker {
      * Register the worker to the master
      */
     register(
-        masterAddress
+
     ) {
 
     }

@@ -1,15 +1,16 @@
-const fs = require('fs')
-const DeviceNotFoundException = require('../error/device/DeviceNotFoundException')
-const PermissionDeniedException = require('../error/device/DevicePermissionDeniedException')
-const DeviceIOException = require('../error/device/DeviceIOException')
-const logger = require('./Logger')
+const fs = require("fs")
+const DeviceNotFoundException = require("../error/device/DeviceNotFoundException")
+const PermissionDeniedException = require("../error/device/DevicePermissionDeniedException")
+const DeviceIOException = require("../error/device/DeviceIOException")
+const logger = require("./Logger")
+const Buffer = require("buffer").Buffer
 class Device {
     /**
      * @param {string} device_path
      * @returns {void}
      * @throws {DeviceNotFoundException}
      * @throws {PermissionDeniedException}
-     * 
+     *
      * Constructor of a storage device
      */
     constructor(device_path) {
@@ -18,16 +19,16 @@ class Device {
             this.device = fs.openSync(device_path, readWritePermissionsFlag)
         } catch (error) {
             // Device does not exist
-            if (error.code === 'ENOENT') {
+            if (error.code === "ENOENT") {
                 logger.error(`Device ${device_path} does not exist`)
                 throw new DeviceNotFoundException(device_path)
             }
             // Permission denied
-            if (error.code === 'EACCES') {
+            if (error.code === "EACCES") {
                 logger.error(`Permission denied for device ${device_path}`)
                 throw new PermissionDeniedException(device_path)
             }
-            logger.error('Unknown error while opening device')
+            logger.error("Unknown error while opening device")
             throw error
         }
     }
@@ -38,7 +39,7 @@ class Device {
      * @param {number} length - The number of bytes to read
      * @throws {DeviceIOException}
      * @returns {Buffer} - The bytes read from the block
-     * 
+     *
      * Read bytes from a block
      * */
     read(block_number, offset, length) {
@@ -61,9 +62,9 @@ class Device {
      * @param {number} block_number - The block number to write to
      * @param {number} offset - The offset in bytes from the beginning of the device
      * @param {Buffer} buffer - The bytes to write to the block
-     * 
+     *
      * @returns {void}
-     * 
+     *
      * Write bytes to a block
      * */
     write(block_number, offset, buffer) {

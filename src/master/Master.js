@@ -3,27 +3,26 @@ const MasterChunkNotFoundException = require("../error/master/MasterChunkNotFoun
 const WorkerRejectConnectionException = require("../error/worker/WorkerRejectConnectionException")
 const WorkerInsufficientException = require("../error/worker/WorkerInsufficientException")
 const MasterTimeoutException = require("../error/master/MasterTimeoutException")
+const MasterCacheMissException = require("../error/master/MasterCacheMissException")
 const Worker = require("./Worker")
-const Chunk = require("./Chunk")
-const Location = require("./Location")
 const logger = require("./Logger")
-const { REPLICATION_FACTOR } = require('config').get("REPLICATION_FACTOR")
-const { MAX_CACHE_SIZE } = require('config').get("MAX_CACHE_SIZE")
+const { REPLICATION_FACTOR } = require("config").get("REPLICATION_FACTOR")
+const { MAX_CACHE_SIZE } = require("config").get("MAX_CACHE_SIZE")
 
 class Master {
     constructor() {
         /**
-         * 
+         *
          * @type {Array<Worker>}
-         * 
+         *
          * Worker pool
          */
         this.workers = []
 
         /**
-         * 
+         *
          * @type {LRUCache<string, Location>}
-         * 
+         *
          * Cache of the location of the blocks on the workers
          */
         this.blockCache = require("lru-cache")({
@@ -32,7 +31,7 @@ class Master {
     }
 
     /**
-     * 
+     *
      * @param {string} workerAddress
      */
     addWorker(workerAddress) {
@@ -40,7 +39,7 @@ class Master {
     }
 
     /**
-     * 
+     *
      * @param {string} chunkData
      * @throws {WorkerInsufficientException} - If there are not enough workers to save the chunk
      * @returns {Array<Location>}
@@ -51,7 +50,7 @@ class Master {
         let rejectedWorkers = 0
         for (let i = 0; i < REPLICATION_FACTOR;) {
             if (rejectedWorkers > this.workers.length - REPLICATION_FACTOR) {
-                logger.error(`Not enough workers to save chunk. Consider increasing the number of workers or decreasing the replication factor`)
+                logger.error("Not enough workers to save chunk. Consider increasing the number of workers or decreasing the replication factor")
                 throw new WorkerInsufficientException()
             }
             const selectedWorker = this.selectWorker()
@@ -78,7 +77,7 @@ class Master {
     }
 
     /**
-     * 
+     *
      * @param {string} chunkID                  - The ID of the chunk
      * @return {Location} savedLocation         - The location of the chunk
      * @throws {MasterChunkNotFoundException}   - If the chunk is not found
@@ -99,11 +98,11 @@ class Master {
     }
 
     /**
-     * 
+     *
      * @param {string} chunkID                  - The ID of the chunk
      * @return {Location}                       - The location of the chunk as stored in the cache
      * @throws {MasterChunkCacheMissException}  - If the chunk is not found in the cache
-     * 
+     *
      * Get the location of a chunk from the cache
      */
     getChunkLocationFromCache(chunkID) {
@@ -114,15 +113,15 @@ class Master {
     }
 
     /**
-     * 
+     *
      * @param {string} chunkID
      * @return {Location} - The location of the chunk in the persistent storage
      * @throws {MasterChunkNotFoundException} - If the chunk is not found in the persistent storage
-     * 
+     *
      * Get the location of a chunk from the persistent storage. This is a fallback if the chunk is not in the cache
      */
     getChunkLocationFromPersistentStorage(chunkID) {
-        allLocations = require("./db/DB").getAllChunkLocationsFromPersistentStorage(chunkID)
+        const allLocations = require("./db/DB").getAllChunkLocationsFromPersistentStorage(chunkID)
         if (allLocations.length === 0) {
             throw new MasterChunkNotFoundException(chunkID)
         }
@@ -130,10 +129,10 @@ class Master {
     }
 
     /**
-     * 
+     *
      * @param {Array<Location>} locations
      * @return {Location}
-     * 
+     *
      * Select a location from a list of locations. Default implementation is random selection
      */
     selectLocation(locations) {
@@ -141,7 +140,7 @@ class Master {
     }
 
     /**
-     * 
+     *
      * @returns {Worker} - A worker being selected. Default implementation is random selection
      */
     selectWorker() {

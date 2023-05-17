@@ -1,12 +1,13 @@
-const Master = require('./Master')
-const Crypto = require('../util/Crypto')
-const WorkerInsufficientException = require('../error/worker/WorkerInsufficientException')
+const Master = require("./Master")
+const Crypto = require("../util/Crypto")
+const WorkerInsufficientException = require("../error/worker/WorkerInsufficientException")
+const MasterChunkSavingException = require("../error/master/MasterChunkSavingException")
 class Chunk {
     /**
-     * 
+     *
      * @param {string} data                     - payload of the chunk
      * @throws {MasterChunkSavingException}     - If the chunk fails to save
-     * 
+     *
      * construct a chunk and save it to the workers using given data
      */
     constructor(data) {
@@ -35,6 +36,7 @@ class Chunk {
 
     get data() {
         // TODO
+        return 0
     }
 }
 

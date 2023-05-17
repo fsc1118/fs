@@ -1,5 +1,5 @@
 const config = require("config")
-
+const process = require("process")
 const WORKER_ESSENTIAL_CONFIGURATION_DEFAULT = {
     "DEVICE_PATH": "/dev/nvme0n1p3"
 }

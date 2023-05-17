@@ -1,6 +1,6 @@
 module.exports = {
     /**
-     * 
+     *
      * @param {string} address
      * @returns {string}
      */

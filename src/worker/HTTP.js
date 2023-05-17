@@ -1,42 +1,42 @@
-const MasterTimeoutException = require('../error/master/MasterTimeoutException')
-const MasterRejectConnectionException = require('../error/master/MasterRejectConnectionException')
-const express = require('express')
+const MasterTimeoutException = require("../error/master/MasterTimeoutException")
+const MasterRejectConnectionException = require("../error/master/MasterRejectConnectionException")
+const express = require("express")
 const ENDPOINT = {
-    Register: '/register',
-    Heartbeat: '/heartbeat',
-    Read: '/read',
-    Write: '/write',
-    Terminate: '/terminate'
+    Register: "/register",
+    Heartbeat: "/heartbeat",
+    Read: "/read",
+    Write: "/write",
+    Terminate: "/terminate"
 }
 
 /**
- * 
- * @param {string} address 
- * @param {string} endpoint 
+ *
+ * @param {string} address
+ * @param {string} endpoint
  * @returns {string} - The formatted endpoint
- * 
+ *
  * Format an endpoint
  */
 const formatEndpoint = (address, endpoint) => {
-    if (!address.startsWith('http://') || !address.startsWith('https://')) {
-        address = 'http://' * + address
+    if (!address.startsWith("http://") || !address.startsWith("https://")) {
+        address = "http://" * + address
     }
-    if (address.endsWith('/')) {
+    if (address.endsWith("/")) {
         return address + endpoint
     }
-    return address + '/' + endpoint
+    return address + "/" + endpoint
 }
 
-const getPort = (address) => {
-    return 8080; // TODO
+const getPort = () => {
+    return 8080 // TODO
 }
 
 class HTTP {
     /**
-     * 
+     *
      * @param {string} workerAddress - The address of the worker
      * @param {string} masterAddress - The address of the master
-     * 
+     *
      * @returns  {void}{void}
      * */
     constructor(
@@ -48,11 +48,11 @@ class HTTP {
     }
 
     /**
-     * 
+     *
      * @returns {void}
      * @throws {MasterTimeoutException}
      * @throws {MasterRejectConnectionException}
-     * 
+     *
      * Register the worker with the master
      */
     Register() {

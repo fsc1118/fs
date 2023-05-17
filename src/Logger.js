@@ -1,5 +1,6 @@
-const fs = require('fs')
-const config = require('config')
+const fs = require("fs")
+const config = require("config")
+
 class Logger {
     /**
      * @param {string} logFilePath - The path to the log file
