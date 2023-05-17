@@ -1,3 +1,3 @@
 # fs
 
-A distributed filesystem inspired by GFS
+A distributed filesystem inspired by Google Filesystem (GFS)
